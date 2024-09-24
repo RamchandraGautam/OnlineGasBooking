@@ -1,0 +1,127 @@
+﻿@model OnlineGasBooking.Models.CustomerVM
+
+@{
+    ViewData["Title"] = "Add New Customer";
+}
+
+<div class="row">
+    <div class="col">
+        <h2 class="text-info">Add New Customer</h2>
+        <hr />
+        <div class="col-md-12">
+            <form id="customerForm" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="row mb-2">
+                    <div id="msg"></div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="First_Name" class="form-label fs-4"></label>
+                        <input asp-for="First_Name" class="form-control fs-4" />
+                        <span asp-validation-for="First_Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Last_Name" class="form-label fs-4"></label>
+                        <input asp-for="Last_Name" class="form-control fs-4" />
+                        <span asp-validation-for="Last_Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UserName" class="form-label fs-4"></label>
+                        <input asp-for="UserName" class="form-control fs-4" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label fs-4"></label>
+                        <input asp-for="Password" class="form-control fs-4" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="DateofBirth" class="form-label fs-4"></label>
+                        <input asp-for="DateofBirth" class="form-control fs-4" type="date" />
+                        <span asp-validation-for="DateofBirth" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Gender" class="form-label fs-4"></label>
+                        <select asp-for="Gender" class="form-control fs-4">
+                            <option value="">--Select Gender--</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Country" class="form-label fs-4"></label>
+                        <input asp-for="Country" class="form-control fs-4" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="City" class="form-label fs-4"></label>
+                        <input asp-for="City" class="form-control fs-4" />
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PostalCode" class="form-label fs-4"></label>
+                        <input asp-for="PostalCode" class="form-control fs-4" />
+                        <span asp-validation-for="PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label fs-4"></label>
+                        <input asp-for="Email" class="form-control fs-4" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Phone" class="form-label fs-4"></label>
+                        <input asp-for="Phone" class="form-control fs-4" />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Address" class="form-label fs-4"></label>
+                        <textarea asp-for="Address" class="form-control fs-4"></textarea>
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Picture" class="form-label fs-4"></label>
+                        <input asp-for="Picture" class="form-control fs-4" type="file" />
+                        <span asp-validation-for="Picture" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6" style="padding-top:36px;">
+                        <button type="submit" class="btn btn-success btn-lg col-12"><i class="fa-regular fa-floppy-disk fs-4"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="col-md-12 d-flex justify-content-lg-start mt-4">
+                <a href="@Url.Action("Index", "Customer")" class="btn btn-danger btn-sm fs-4"><i class="fa-regular fa-hand-back-point-left"></i> Back to the list</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#customerForm").on("submit", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        $("#msg").html(result);
+                        $("#customerForm")[0].reset();
+                    },
+                    error: function () {
+                        alert("An error occurred.");
+                    }
+                });
+            });
+        });
+    </script>
+}

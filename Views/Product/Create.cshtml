@@ -1,0 +1,107 @@
+﻿@model OnlineGasBooking.Models.ProductVM
+
+@{
+    ViewData["Title"] = "Product Information";
+}
+
+<div class="row">
+    <div class="col">
+        <h2 class="text-info">Add New Product</h2>
+        <hr />
+        <div class="col-md-12">
+            <form id="productForm" method="post" enctype="multipart/form-data">
+                @Html.AntiForgeryToken()
+                <div class="row mb-2">
+                    <div id="msg"></div>
+                </div>
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <label asp-for="Name" class="form-label fs-4"></label>
+                        <input asp-for="Name" class="form-control fs-4" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="SupplierID" class="form-label fs-4"></label>
+                        <select asp-for="SupplierID" asp-items="ViewBag.supplierList" class="form-control fs-4">
+                            <option value="">***Select Supplier***</option>
+                        </select>
+                        <span asp-validation-for="SupplierID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="CategoryID" class="form-label fs-4"></label>
+                        <select asp-for="CategoryID" asp-items="ViewBag.categoryList" class="form-control fs-4">
+                            <option value="">***Select Category***</option>
+                        </select>
+                        <span asp-validation-for="CategoryID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="SubCategoryID" class="form-label fs-4"></label>
+                        <select asp-for="SubCategoryID" asp-items="ViewBag.SubCategoryList" class="form-control fs-4">
+                            <option value="">***Select SubCategory***</option>
+                        </select>
+                        <span asp-validation-for="SubCategoryID" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UnitPrice" class="form-label fs-4"></label>
+                        <input asp-for="UnitPrice" class="form-control fs-4" type="number" step="0.01" />
+                        <span asp-validation-for="UnitPrice" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="OldPrice" class="form-label fs-4"></label>
+                        <input asp-for="OldPrice" class="form-control fs-4" type="number" step="0.01" />
+                        <span asp-validation-for="OldPrice" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="ShortDescription" class="form-label fs-4"></label>
+                        <textarea asp-for="ShortDescription" class="form-control fs-4"></textarea>
+                        <span asp-validation-for="ShortDescription" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="UnitInStock" class="form-label fs-4"></label>
+                        <input asp-for="UnitInStock" class="form-control fs-4" type="number" />
+                        <span asp-validation-for="UnitInStock" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Picture" class="form-label fs-4"></label>
+                        <input asp-for="Picture" class="form-control fs-4" type="file" />
+                        <span asp-validation-for="Picture" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mt-4">
+                        <button type="submit" class="btn btn-success btn-lg col-12 mt-4"><i class="fa-regular fa-floppy-disk fs-4"></i> Save</button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-md-12 d-flex justify-content-lg-start mt-3">
+                <a href="@Url.Action("Index", "Product")" class="btn btn-danger btn-sm fs-4"><i class="fa-regular fa-hand-back-point-left"></i> Back to the list</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/jquery-3.6.0.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#productForm").on("submit", function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    type: 'POST',
+                    data: new FormData(this),
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
+                        $("#msg").html(result);
+                        $("#productForm")[0].reset();
+                    },
+                    error: function () {
+                        alert("An error occurred.");
+                    }
+                });
+            });
+        });
+    </script>
+}

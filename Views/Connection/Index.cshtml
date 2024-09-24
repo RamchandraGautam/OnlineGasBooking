@@ -1,0 +1,64 @@
+﻿@model OnlineGasBooking.Models.NewConnection
+
+@{
+    ViewBag.Title = "NewConnection Information";
+}
+
+<div class="row">
+
+    <div class="col">
+        <h2 class="text-info">New Connection List</h2>
+        <hr />
+       @*  <div class="d-flex justify-content-end mb-2">
+            <a href="@Url.Action("Create", "Supplier")" class="btn btn btn-outline-primary"><i class="fa-regular fa-square-plus fs-1"></i></a>
+        </div> *@
+        <div class="table-responsive">
+            <table class="table table-condensed table-hover table-bordered table-striped table">
+                <thead>
+                    <tr>
+                        <th>New Connection ID</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Gender</th>
+                        <th>Date of Birth</th>
+                        <th>Country</th>
+                        <th>City</th>
+                        <th>Postal Code</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>status</th>
+                        <th>Doc ID</th>                    
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in @ViewBag.latestOrders)
+                    {
+                        <tr>                        
+                            <td>@item.NewConnectionID</td>
+                            <td>@item.First_Name</td>
+                            <td>@item.Last_Name</td>
+                            <td>@item.Gender</td>
+                            <td>@item.DateofBirth</td>
+                            <td>@item.Country</td>
+                            <td>@item.City</td>
+                            <td>@item.PostalCode</td>
+                            <td>@item.Email</td>
+                            <td>@item.Phone</td>
+                            <td>@item.Address</td>
+                            <td>@item.status </td>
+                            @* <td>@(item.status != null ? (item.status == "N" ? "Pending" : "Approved ") : "Unknown")</td> *@
+                            <td><img src="@Url.Content("" +@item.DocPicturePath)" title="No Image" alt="" width="150" height="150"></td>
+                            <td>
+                                <a href="@Url.Action("Details", "Connection", new {id = item.NewConnectionID })" class="btn btn-success">Action</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
