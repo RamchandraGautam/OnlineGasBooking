@@ -21,75 +21,88 @@
                                     <h3 class="theme-color lead fs-2">Customer Information</h3>   
                             <div class="col-lg-9">                                
                                                                      
-                                    <div class="row about-list">
-                                        <div class="col-md-6">
-                                            <div class="media">
-                                                <label class="fs-4">First Name</label>
-                                                <p>@Model.First_Name</p>
-                                            </div>
-                                            <div class="media">
-                                                <label class="fs-4">Last Name</label>
-                                                <p>@Model.Last_Name</p>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                                <label class="fs-4">First Name :</label>
+                                                <label style="font-weight: normal;">@Model.First_Name</label>   
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="media">
-                                                <label class="fs-4">Gender</label>
-                                                <p>@Model.Gender</p>
-                                            </div>
-                                            <div class="media">
-                                                <label class="fs-4">Date of Birth</label>
-                                                <p>@Model.DateofBirth</p>
-                                            </div>
-                                        </div>
+                                        <div class="col-md-6">                                             
+                                                <label class="fs-4">Last Name :</label>
+                                                <label style="font-weight: normal;">@Model.Last_Name</label>                                              
+                                        </div>                                        
                                     </div>
-                                    <div class="row about-list">
-                                        <div class="col-md-6">
-                                            <div class="media">
-                                                <label class="fs-4">Country</label>
-                                                <p>@Model.Country</p>
-                                            </div>
-                                            <div class="media">
-                                                <label class="fs-4">City</label>
-                                                <p>@Model.City</p>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                                <label class="fs-4">Gender :</label>
+                                                <label style="font-weight: normal;">@Model.Gender</label>   
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="media">
-                                                <label class="fs-4">Phone</label>
-                                                <p>@Model.Phone</p>
-                                            </div>
-                                            <div class="media">
-                                                <label class="fs-4">Email</label>
-                                                <p>@Model.Email</p>
-                                            </div>
-                                        </div>
+                                        <div class="col-md-6">                                             
+                                                <label class="fs-4">Date of Birth :</label>
+                                                <label style="font-weight: normal;">@Model.DateofBirth</label>                                              
+                                        </div>                                        
                                     </div>
-                                    <div class="row about-list">
-                                        <div class="col-md-6">
-                                            <div class="media">
-                                                <label class="fs-4">Pin Code</label>
-                                                <p>@Model.PostalCode</p>
-                                            </div>
-                                            <div class="media">
-                                                <label class="fs-4">Address</label>
-                                                <p>@Model.Address</p>
-                                            </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                                <label class="fs-4">Country :</label>
+                                                <label style="font-weight: normal;">@Model.Country</label>   
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="media">
-                                                <label class="fs-4">Current Status</label>
-                                                <p>@Model.status</p>
-                                            </div>
-                                            @* <div class="media">
-                                                <label class="fs-4">Current Stock</label>
-                                                <p>@Model.UnitInStock</p>
-                                            </div> *@
-                                        </div>
+                                        <div class="col-md-6">                                             
+                                                <label class="fs-4">City :</label>
+                                                <label style="font-weight: normal;">@Model.City</label>                                              
+                                        </div>                                        
                                     </div>
-
-                                    
-                                
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                                <label class="fs-4">Phone :</label>
+                                                <label style="font-weight: normal;">@Model.Phone</label>   
+                                        </div>
+                                        <div class="col-md-6">                                             
+                                                <label class="fs-4">Email :</label>
+                                                <label style="font-weight: normal;">@Model.Email</label>                                              
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                                <label class="fs-4">Pin Code :</label>
+                                                <label style="font-weight: normal;">@Model.PostalCode</label>   
+                                        </div>
+                                        <div class="col-md-6">                                             
+                                                <label class="fs-4">Address :</label>
+                                                <label style="font-weight: normal;">@Model.Address</label>                                              
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                                <label class="fs-4">Current Status :</label>
+                                                <label style="font-weight: normal;">@Model.status</label>   
+                                        </div>
+                                        <div class="col-md-6">                                             
+                                               <label class="fs-4">Refill Size :</label>
+                                                <select id="cylinderDropdown">
+                                                    <option value="">Cylinder Type</option>
+                                                    <option value="5">5 kg</option>
+                                                    <option value="14">14.2 kg</option>
+                                                    <option value="19">19 kg</option>
+                                                </select>                                           
+                                        </div>                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">                                           
+                                               <label class="fs-4">Amount to Paid: </label>
+                                               <label id="lblamount" class="fs-4 text-primary">Please select Cylinder Type.</label> 
+                                               <input type="hidden" id="hiddenAmount" name="AmountToPaid" value="0" />
+                                        </div>
+                                       <div class="col-md-6">
+                                            <label class="fs-4">Payment Type: </label>
+                                            <select id="paymentTypeDropdown" name="SelectedPaymentType">
+                                                <option value="">Select Payment Type</option>
+                                                <option value="Credit Card">Credit Card</option>
+                                                <option value="Net Banking">Net Banking</option>
+                                                <option value="UPI">UPI</option>
+                                                <option value="Cash on Delivery">Cash on Delivery</option>
+                                            </select>
+                                        </div>                                       
+                                    </div>
                             </div>   
                             <div class="row md-3">                               
                                         <label class="fs-4">Document ID</label><br />
@@ -103,7 +116,7 @@
                                     <a href="@Url.Action("Index", "BookCylinder")" class="btn btn-info fs-4"><i class="fa-regular fa-hand-back-point-left"></i> Back to the list</a>
                                 </div>
                                 <div class="col-6 ">
-                                    <button type="submit" class="btn btn-danger fs-4">Conform Booking</button>
+                                    <button type="submit" onclick="return checkamount()" class="btn btn-danger fs-4">Conform Booking</button>
                                 </div>
                                 <br />
                             </div>
@@ -115,4 +128,47 @@
     </div>
     
 </div>
+<script>
+    function checkamount() { 
+        var lblamount = document.getElementById('lblamount').innerText;
+        var paymentType = document.getElementById('paymentTypeDropdown').value;
+        
+        if(lblamount=="Please select Cylinder Type.")
+        {
+            alert("Please select Cylinder Type.");
+            return false;
+        }
+        else if(paymentType=="")
+        {
+            alert("Please select Payment Type.");
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    document.getElementById('cylinderDropdown').addEventListener('change', function() {
+        // Get the selected value from the dropdown
+        var selectedValue = this.options[this.selectedIndex].text;
+        var paidamount = '';               
+                
+                switch (selectedValue) {
+                  case "5 kg":
+                        paidamount = 500;
+                    break;
+                  case "14.2 kg":
+                    paidamount = 900;
+                    break;
+                  case "19 kg":
+                    paidamount = 1500;
+                    break;
+                    default:
+                        paidamount = "0.00";
+                        
+                }        
+        document.getElementById('lblamount').innerText = "Rs. "+ paidamount;
+        document.getElementById('hiddenAmount').value = paidamount;
+    });
+</script>
 

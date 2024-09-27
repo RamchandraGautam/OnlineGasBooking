@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using OnlineGasBooking.Models;
+using System;
 
 namespace OnlineGasBooking.Controllers
 {
@@ -12,7 +16,7 @@ namespace OnlineGasBooking.Controllers
 
         public IActionResult Index()
         {
-            // Fetch only records where status is 'Approve'
+           
             var approvedConnections = _db.NewConnection
                                          .Where(c => c.status == "Approve")
                                          .ToList();
@@ -31,13 +35,14 @@ namespace OnlineGasBooking.Controllers
         }
         [HttpPost, ActionName("BookDetails")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BookingConfirm(int id)
+        public async Task<IActionResult> BookingConfirm(int id, string AmountToPaid, string SelectedPaymentType)
         {
             var ConnectionDetail = _db.NewConnection.Find(id);
             if (ConnectionDetail == null)
             {
                 return NotFound();
             }
+
             int shpID = 1;
             if (_db.ShippingDetails.Any())
             {
@@ -47,7 +52,6 @@ namespace OnlineGasBooking.Controllers
             int payID = 1;
             if (_db.Payments.Any())
             {
-                //payID = _db.Payments.Max(x => x.PaymentID);
                 payID = _db.Payments.Max(x => x.PaymentID) + 1;
             }
 
@@ -56,6 +60,7 @@ namespace OnlineGasBooking.Controllers
             {
                 orderID = _db.Orders.Max(x => x.OrderID) + 1;
             }
+
             using (var transaction = _db.Database.BeginTransaction())
             {
                 ShippingDetail shpDetails = new ShippingDetail
@@ -70,55 +75,88 @@ namespace OnlineGasBooking.Controllers
                 };
                 _db.ShippingDetails.Add(shpDetails);
                 _db.SaveChanges();
-                //transaction.Commit();
+
+                // Handle payment type logic here
+                PaymentType paymentType = null;
+
+                switch (SelectedPaymentType)
+                {
+                    case "Credit Card":
+                        paymentType = _db.PaymentTypes.FirstOrDefault(p => p.TypeName == "Credit Card");
+                        break;
+                    case "Net Banking":
+                        paymentType = _db.PaymentTypes.FirstOrDefault(p => p.TypeName == "Net Banking");
+                        break;
+                    case "UPI":
+                        paymentType = _db.PaymentTypes.FirstOrDefault(p => p.TypeName == "UPI");
+                        break;
+                    case "Cash on Delivery":
+                        paymentType = _db.PaymentTypes.FirstOrDefault(p => p.TypeName == "Cash on Delivery");
+                        break;
+                    default:
+                        ModelState.AddModelError("", "Please select a valid payment type.");
+                        return View(ConnectionDetail);
+                }
+
+                if (paymentType == null)
+                {
+                    ModelState.AddModelError("", "Selected payment type is invalid.");
+                    return View(ConnectionDetail);
+                }
+
                 Payment pay = new Payment
                 {
-                    //Type = Convert.ToInt32(1)//getCheckoutDetails["PayMethod"])
-
+                    PaymentStatus = "Success",
+                    Amount = Convert.ToDecimal(AmountToPaid),
+                    PaymentDateTime = DateTime.Now,
+                    PaymentType = paymentType // Set payment type here
                 };
+
                 _db.Payments.Add(pay);
                 _db.SaveChanges();
-                //transaction.Commit();
+
                 Order o = new Order
                 {
-                    CustomerID = id,//TempShpData.UserID,
+                    CustomerID = Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID")),
                     PaymentID = payID,
-                    ShippingID = 4,//shpID,
-                    Discount = Convert.ToInt32(0),//getCheckoutDetails["discount"]),
-                    TotalAmount = Convert.ToInt32(100),//getCheckoutDetails["totalAmount"]),
+                    ShippingID = shpID,
+                    Discount = id,
+                    Taxes = 0,
+                    TotalAmount = Convert.ToInt32(AmountToPaid),
                     isCompleted = true,
+                    ShippingDate= DateTime.Now.AddDays(2),
                     OrderDate = DateTime.Now
                 };
-                _db.Order.Add(o);
+
+                _db.Orders.Add(o);
                 _db.SaveChanges();
 
-                // Save OrderDetails (if uncommented and used)
-                //foreach (var OD in TempShpData.items)
-                //{
-                //    OD.OrderID = orderID;
-                //    OD.Order = _db.Orders.Find(orderID);
-                //    OD.Product = _db.Products.Find(OD.ProductID);
-                //    _db.OrderDetails.Add(OD);
-                //    _db.SaveChanges();
-                //}
                 transaction.Commit();
             }
-           // return RedirectToAction("ThankYou", "ThankYou");
-            
-            //_db.NewConnection.Remove(product);
-            await _db.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(BookingHistory));
         }
 
 
         public IActionResult BookingHistory()
         {
-            // Fetch only records where status is 'Approve'
-            var approvedConnections = _db.NewConnection
-                                         .Where(c => c.status == "Approve")
-                                         .ToList();
-            return View(approvedConnections);
+            // Assuming you have a customerId to pass
+           
+            int customerId =Convert.ToInt32(HttpContext.Session.GetInt32("CustomerID"));
+            string? connectionString = _db.Database.GetConnectionString(); // Retrieve your connection string
+            using (var connection = new SqlConnection(connectionString))
+            {
+                // Raw SQL query without mapping to a model
+                var query = "SELECT OrderID,FirstName,LastName,Email,Mobile,PaymentStatus,isCompleted,OrderDate,ShippingDate,Shipped,Address,Notes FROM ViewOrderDetails WHERE CustomerID = @CustomerId";// 
+
+                // Execute the query and retrieve the data as a list of dynamic objects
+                var result = connection.Query(query, new { CustomerId = customerId }).ToList();//
+
+
+                ViewBag.BookHistory = result;
+                return View();
+            }
         }
     }
 }

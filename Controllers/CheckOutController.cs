@@ -7,10 +7,6 @@ using System.Linq;
 
 namespace OnlineGasBooking.Controllers
 {
-    
-    
-    
-    
     public class CheckOutController : Controller
     {
         private readonly OnlineGasDBContext _db;
