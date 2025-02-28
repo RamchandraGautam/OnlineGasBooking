@@ -9,9 +9,6 @@ using CrystalDecisions.Shared;
 
 namespace OnlineGasBooking.Controllers
 {
-    
-    
-    
     public class ReportsController : Controller
     {
         private readonly IWebHostEnvironment _webHostEnvironment;

@@ -20,7 +20,7 @@ namespace OnlineGasBooking.Controllers
             using (var connection = new SqlConnection(connectionString))
             {
                 // Raw SQL query without mapping to a model
-                var query = "SELECT OrderID,FirstName,LastName,Email,Mobile,PaymentStatus,isCompleted,OrderDate,ShippingDate,Shipped,Address,Notes FROM ViewOrderDetails ";// WHERE CustomerID = @CustomerId
+                var query = "SELECT OrderID,FirstName,LastName,Email,Mobile,PaymentStatus,TotalAmount,isCompleted,OrderDate,ShippingDate,Address,Notes FROM ViewOrderDetails ";// WHERE CustomerID = @CustomerId
 
                 // Execute the query and retrieve the data as a list of dynamic objects
                 var result = connection.Query(query).ToList();//, new { CustomerId = customerId }
@@ -32,29 +32,61 @@ namespace OnlineGasBooking.Controllers
         }
         public ActionResult Details(int id)
         {
-            string? connectionString = _db.Database.GetConnectionString(); // Retrieve your connection string
+            string? connectionString = _db.Database.GetConnectionString(); 
             using (var connection = new SqlConnection(connectionString))
             {
-                // Raw SQL query without mapping to a model
-                var query = "SELECT * FROM [Order] where OrderID=4 ";// WHERE CustomerID = @CustomerId
+                // Raw SQL query mapped to the BookingDetails model
+                var query = "SELECT OrderID,PaymentID,FirstName,LastName,Email,Mobile,PaymentStatus,isCompleted,OrderDate,ShippingDate,Address,Notes FROM ViewOrderDetails WHERE OrderID = @OrderID";
 
-                // Execute the query and retrieve the data as a list of dynamic objects
-                var result = connection.Query(query);//, new { CustomerId = customerId }
+                // Execute the query and map the result to BookingDetails model
+                var result = connection.QueryFirstOrDefault<BookingDetails>(query, new { OrderID = id });
 
-
-                //ViewBag.BookHistory = result;
-                return View();
-            }
-            //BookingDetails ord = _db.Orders.Find(id);
-            //var Ord_details = _db.OrderDetails.Where(x => x.OrderID == id);
-            ////var tuple = new Tuple<Order, IEnumerable<OrderDetail>>(ord, Ord_details);
-
-            ////double SumAmount = Convert.ToDouble(Ord_details.Sum(x => x.TotalAmount));
-            ////ViewBag.TotalItems = Ord_details.Sum(x => x.Quantity);
-            ////ViewBag.Discount = 0;
-            ////ViewBag.TAmount = SumAmount - 0;
-            ////ViewBag.Amount = SumAmount;
-            //return View(ord);//tuple
+                if (result == null)
+                {
+                    //return HttpNotFound();
+                }
+                return View(result);
+            }           
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdateOrder(BookingDetails orderData)
+        {
+            try
+            {
+                int orderId = orderData.OrderID;
+                bool? isCompleted = orderData.isCompleted;
+                string? note = orderData.Notes;
+                DateTime? deliverydate=orderData.ShippingDate;
+
+
+                string? connectionString = _db.Database.GetConnectionString();
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    var query = "UPDATE [Order] SET isCompleted = @IsCompleted, Notes = @Note, ShippingDate=@deliverydate WHERE OrderID = @OrderID";
+
+                    // Parameterized query to prevent SQL injection
+                    var result = await connection.ExecuteAsync(query, new
+                    {
+                        IsCompleted = isCompleted,
+                        Note = note,
+                        DeliveryDate = deliverydate,
+                        OrderID = orderId
+                    });
+
+                    if (result <= 0) // If no rows were updated
+                    {
+                        return PartialView("_Error");
+                    }
+                }
+
+                return PartialView("_Success");
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (optional) and return an error partial view
+                return PartialView("_Error");
+            }
+        }
+
     }
 }

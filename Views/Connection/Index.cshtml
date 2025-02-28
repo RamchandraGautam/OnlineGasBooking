@@ -9,12 +9,14 @@
     <div class="col">
         <h2 class="text-info">New Connection List</h2>
         <hr />
-       @*  <div class="d-flex justify-content-end mb-2">
+        @* <table id="Mytable" class="table table-condensed table-hover table-bordered table-striped">
+           <div class="d-flex justify-content-end mb-2">
             <a href="@Url.Action("Create", "Supplier")" class="btn btn btn-outline-primary"><i class="fa-regular fa-square-plus fs-1"></i></a>
         </div> *@
         <div class="table-responsive">
-            <table class="table table-condensed table-hover table-bordered table-striped table">
-                <thead>
+            <table id="Mytable" class="table table-condensed table-hover table-bordered table-striped table">
+                
+                    <thead style="background-color: #121e7a; color: white;">                   
                     <tr>
                         <th>New Connection ID</th>
                         <th>First Name</th>
@@ -28,7 +30,7 @@
                         <th>Phone</th>
                         <th>Address</th>
                         <th>status</th>
-                        <th>Doc ID</th>                    
+                        @* <th>Doc ID</th>*@
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -49,7 +51,7 @@
                             <td>@item.Address</td>
                             <td>@item.status </td>
                             @* <td>@(item.status != null ? (item.status == "N" ? "Pending" : "Approved ") : "Unknown")</td> *@
-                            <td><img src="@Url.Content("" +@item.DocPicturePath)" title="No Image" alt="" width="150" height="150"></td>
+                            @* <td><img src="@Url.Content("" +@item.DocPicturePath)" title="No Image" alt="" width="150" height="150"></td> *@
                             <td>
                                 <a href="@Url.Action("Details", "Connection", new {id = item.NewConnectionID })" class="btn btn-success">Action</a>
                             </td>
@@ -61,4 +63,35 @@
     </div>
 </div>
 
+<!-- #region name Datatable Plugin -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+<style>
+    .dataTables_filter {
+        margin-bottom: 10px; /* Adjust the value to increase or decrease space */
+    }
+</style>
+
+<!-- Initialize DataTables -->
+<script type="text/javascript">
+    var js = jQuery.noConflict(true);
+    js(document).ready(function () {
+        js('#Mytable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
+        });
+    });
+</script>
+
+
+<!-- #endregion -->
 

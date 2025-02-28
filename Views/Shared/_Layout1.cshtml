@@ -12,8 +12,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link href="~/MyContent/css/bootstrap.css" rel="stylesheet" />
-    @* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> *@
-    <link href="~/MyContent/css/font-awesome.css" rel="stylesheet" /> 
+    <link href="~/MyContent/css/font-awesome.css" rel="stylesheet" />
     <link href="~/MyContent/css/jquery.simpleLens.css" rel="stylesheet" />
     <link href="~/MyContent/css/jquery.smartmenus.bootstrap.css" rel="stylesheet" />
     <link href="~/MyContent/css/nouislider.css" rel="stylesheet" />
@@ -106,13 +105,12 @@
                                 </div>
                                 <!-- start cellphone -->
                                 <div class="cellphone hidden-xs">
-                                    <p><span class="fa fa-phone"></span>9876543210</p>
+                                    <p><span class="fa fa-phone"></span>9834398427</p>
                                 </div>
                             </div>
                             <!-- header top Right -->
                             <div class="aa-header-top-right">
                                 <ul class="aa-head-top-nav-right">
-
 
                                     <li><a href="@(username != null ? accountUrl : loginUrl)">My Account</a></li>
 
@@ -170,42 +168,22 @@
                             <div class="aa-logo">
                                 <!-- Text based logo -->
                                 <a href="@Url.Action("Index","Home")">
-                                    <span class="fa fa-shopping-cart"></span>
-                                    <p>VALAMPURI GAS<strong>Agency</strong> <span>Trusted Service Provider</span></p>
+                                    @* <span class="fa fa-shopping-cart"></span> *@
+                                    <p>VALAMPURI GAS Agency <span>Trusted Service Provider</span></p>
                                 </a>
-                            </div>
-
-                            <!-- cart box -->
-                            <div class="aa-cartbox">
-                                <a class="aa-cart-link" href="#">
-                                    <span class="fa fa-shopping-basket"></span>
-                                    <span class="aa-cart-title">SHOPPING CART</span>
-                                    <span class="aa-cart-notify">@(ViewBag.NoOfItem == null ? 0 : ViewBag.NoOfItem)</span>
-                                </a>
-
-                                <div class="aa-cartbox-summary">
-                                    <ul>
-                                        @if (username != null)
-                                        {
-                                            Html.RenderPartial("_CartBox");
-                                        }
-                                    </ul>
-
-                                    <a class="aa-cartbox-checkout aa-primary-btn" href="@Url.Action("Index","CheckOut")">Checkout</a>
-
-                                </div>
-                            </div>
+                            </div>                           
+                            </div>                           
 
                             <!-- search box -->
-                            <div class="aa-search-box">
-                                <form action="@Url.Action("Search","Product1")" method="get">
+                           @*  <div class="aa-search-box">
+                                <form action="@Url.Action("Search","Product")" method="get">
 
                                     <input type="text" name="products" id="searchTxtBox" placeholder="Search product here . . . ">
 
                                     <button type="submit" class="bg-primary"><span class="fa fa-search"></span></button>
 
                                 </form>
-                            </div>
+                            </div> *@
                         </div>
                     </div>
                 </div>
@@ -282,7 +260,7 @@
                                             <li><a href="#">Contact Us</a></li>
                                         </ul>
                                     </div>
-                                </div>                               
+                                </div>
                                 <div class="col-md-3 col-sm-6">
                                     <div class="aa-footer-widget">
                                         <div class="aa-footer-widget">
@@ -291,20 +269,20 @@
                                                 <li><a href="#">Delivery</a></li>
                                                 <li><a href="#">Returns</a></li>
                                                 <li><a href="#">Services</a></li>
-                                                <li><a href="#">Discount</a></li>
+
                                                 <li><a href="#">Special Offer</a></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-3 col-sm-6">
                                     <div class="aa-footer-widget">
                                         <div class="aa-footer-widget">
                                             <h3>Contact Information</h3>
                                             <address>
                                                 <p>OnlineGasBooking.com</p>
-                                                <p><span class="fa fa-phone"></span>0102030405</p>
+                                                <p><span class="fa fa-phone"></span>9834398427</p>
                                                 <p><span class="fa fa-envelope"></span>help@OnlineGasBooking.com</p>
                                             </address>
                                             <div class="aa-footer-social">
@@ -328,7 +306,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="aa-footer-bottom-area">
-                            <p>&copy; @DateTime.Now.Year - <a href="http://localhost:5188/">OnlineGasBooking.com</a></p>
+                            <p>&copy; @DateTime.Now.Year - OnlineGasBooking.com</p>
                         </div>
                     </div>
                 </div>

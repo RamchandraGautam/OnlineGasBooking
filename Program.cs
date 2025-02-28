@@ -2,6 +2,7 @@ using OnlineGasBooking.Models;
 //using ElectronicsStore.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Rotativa.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -42,5 +43,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 app.Run();

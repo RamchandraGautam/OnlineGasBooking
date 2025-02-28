@@ -4,7 +4,6 @@
     ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout1.cshtml";
 }
-
 <Div class="row">
     <div class="col">
         <div class="col-md-12">
@@ -103,6 +102,9 @@
 
                             </div>
                         </div>
+                        <a href="@Url.Action("PrintDetailsPdf", "NewConnection", new { id = Model.NewConnectionID })" class="btn btn-primary">
+                            Download PDF
+                        </a>
                     </div>
                 </section>
             }

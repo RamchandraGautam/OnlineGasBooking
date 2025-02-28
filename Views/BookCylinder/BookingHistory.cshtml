@@ -1,5 +1,4 @@
 ﻿
-
 @{
     //ViewBag.Title = "ConnectionList";
     Layout = "~/Views/Shared/_Layout1.cshtml";
@@ -8,7 +7,7 @@
 <div class="row">
 
     <div class="container">
-        <h2 class="text-info">New Connection List</h2>
+        <center><h2 class="text-info">Gas Cylinder Booked History</h2></center>
         <hr />
         @*  <div class="d-flex justify-content-end mb-2">
         <a href="@Url.Action("Create", "Supplier")" class="btn btn btn-outline-primary"><i class="fa-regular fa-square-plus fs-1"></i></a>
@@ -23,7 +22,7 @@
                         <th>Email</th>
                         <th>Mobile</th>
                         <th>Payment Status</th>
-                        <th>Order Status</th>
+                        <th>Delivery Status</th>
                         <th>Order Date</th>
                         <th>Shipping Date</th>
                         <th>Shipped</th>
@@ -42,7 +41,8 @@
                             <td>@item.Email</td>
                             <td>@item.Mobile</td>
                             <td>@item.PaymentStatus</td>
-                            <td>@item.isCompleted</td>
+                            @* td>@item.isCompleted</td> *@
+                            <td>@(item.isCompleted != null ? (item.isCompleted == false ? "Pending" : "Successful ") : "Pending")</td>
                             <td>@item.OrderDate</td>
                             <td>@item.ShippingDate</td>
                             <td>@item.Shipped</td>

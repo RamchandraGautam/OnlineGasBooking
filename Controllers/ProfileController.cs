@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineGasBooking.Controllers
 {
-    
-    
-    
-    
     public class ProfileController : Controller
     {
         private readonly OnlineGasDBContext _db;

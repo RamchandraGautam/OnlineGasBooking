@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Rotativa.AspNetCore;
 
 namespace OnlineGasBooking.Controllers
 {
@@ -87,6 +88,28 @@ namespace OnlineGasBooking.Controllers
 
             return View(product);
         }
+        [HttpGet("details/pdf/{id}")]
+        public IActionResult PrintDetailsPdf(int id)
+        {
+            try
+            {
+                var model = _db.NewConnection.Find(id);
+                return new ViewAsPdf("Details", model)
+                {
+                    FileName = $"NewConnection_{id}.pdf",
+                    PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                    PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+                    CustomSwitches = "--no-header-line --no-footer-line --no-stop-slow-scripts --disable-javascript"
+                };
+            }
+            catch (Exception ex)
+            {
+                // Log the exception message
+                // For example, you could log this using a logging framework
+                return View("Error");//, new ErrorViewModel { RequestId = HttpContext.TraceIdentifier, Message = ex.Message });
+            }
+        }
+
         public IActionResult Delete(int id)
         {
             var product = _db.NewConnection.Find(id);

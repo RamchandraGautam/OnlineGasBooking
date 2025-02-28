@@ -8,10 +8,6 @@ using System.Threading.Tasks;
 
 namespace OnlineGasBooking.Controllers
 {
-    
-    
-    
-    
     public class CustomerController : Controller
     {
         private readonly OnlineGasDBContext _db;

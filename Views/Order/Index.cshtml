@@ -6,30 +6,31 @@
 }
 
 <div class="row">
-
     <div class="container">
-        <h2 class="text-info">New Order List</h2>
-        <hr />       
+        
+        <div class="Header text-center mt-1">
+            <h1>New Order List</h1>
+        </div>
+        <hr />
         <div class="table-responsive">
-            <table class="table table-condensed table-hover table-bordered table-striped table">
-                <thead>
+            <table id="Mytable" class="table table-condensed table-hover table-bordered table-striped">
+                <thead style="background-color: #121e7a; color: white;">                    
                     <tr>
                         <th>OrderID</th>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th>Email</th>
+                        @* <th>Email</th> *@
                         <th>Mobile</th>
                         <th>Payment Status</th>
+                        <th>Payment Amount</th>
                         <th>Order Status</th>
                         <th>Order Date</th>
                         <th>Shipping Date</th>
-                        <th>Shipped</th>
                         <th>Address</th>
-                        <th>Notes </th>
+                        <th>Notes</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach (var item in @ViewBag.BookHistory)
                     {
@@ -37,19 +38,17 @@
                             <td>@item.OrderID</td>
                             <td>@item.FirstName</td>
                             <td>@item.LastName</td>
-                            <td>@item.Email</td>
+                            @* <td>@item.Email</td> *@
                             <td>@item.Mobile</td>
                             <td>@item.PaymentStatus</td>
-                            <td>@item.isCompleted</td>
+                            <td>@item.TotalAmount</td>
+                            <td>@(item.isCompleted != null ? (item.isCompleted == false ? "Pending" : "Successful ") : "Pending")</td>
                             <td>@item.OrderDate</td>
                             <td>@item.ShippingDate</td>
-                            <td>@item.Shipped</td>
                             <td>@item.Address</td>
-                            <td>@item.Notes </td>
-                            @* <td>@(item.status != null ? (item.status == "N" ? "Pending" : "Approved ") : "Unknown")</td> *@
+                            <td>@item.Notes</td>
                             <td>
                                 @Html.ActionLink("View Details", "Details", new { id = item.OrderID }, new { @class = "btn btn-info" })
-
                             </td>
                         </tr>
                     }
@@ -59,6 +58,34 @@
     </div>
 </div>
 
+<!-- #region name Datatable Plugin -->
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+
+<style>
+    .dataTables_filter {
+        margin-bottom: 10px; /* Adjust the value to increase or decrease space */
+    }
+</style>
+
+<!-- Initialize DataTables -->
+<script type="text/javascript">
+    var js = jQuery.noConflict(true);
+    js(document).ready(function () {
+        js('#Mytable').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
+        });
+    });
+</script>
 
 
-
+<!-- #endregion -->

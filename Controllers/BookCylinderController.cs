@@ -35,7 +35,7 @@ namespace OnlineGasBooking.Controllers
         }
         [HttpPost, ActionName("BookDetails")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> BookingConfirm(int id, string AmountToPaid, string SelectedPaymentType)
+        public async Task<IActionResult> BookingConfirm(int id, string AmountToPaid, string SelectedPaymentType,string SelectedCylinder)
         {
             var ConnectionDetail = _db.NewConnection.Find(id);
             if (ConnectionDetail == null)
@@ -121,9 +121,9 @@ namespace OnlineGasBooking.Controllers
                     PaymentID = payID,
                     ShippingID = shpID,
                     Discount = id,
-                    Taxes = 0,
+                    Taxes = Convert.ToDouble(SelectedCylinder),
                     TotalAmount = Convert.ToInt32(AmountToPaid),
-                    isCompleted = true,
+                    isCompleted = false,
                     ShippingDate= DateTime.Now.AddDays(2),
                     OrderDate = DateTime.Now
                 };

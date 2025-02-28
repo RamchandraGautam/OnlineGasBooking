@@ -14,6 +14,7 @@
             <table class="table table-condensed table-hover table-bordered table-striped table">
                 <thead>
                     <tr>
+                        <th>Customer ID</th>
                         <th>Name</th>
                         <th>@Html.DisplayNameFor(c => c.Gender)</th>
                         <th>@Html.DisplayNameFor(c => c.Email)</th>
@@ -27,6 +28,7 @@
                     @foreach (var cus in Model)
                     {
                         <tr>
+                            <td>@Html.DisplayFor(c => cus.CustomerID)</td>
                             <td>@Html.DisplayFor(c => cus.First_Name)&nbsp;@Html.DisplayFor(c => cus.Last_Name)</td>
                             <td>@Html.DisplayFor(c => cus.Gender)</td>
                             <td>@Html.DisplayFor(c => cus.Email)</td>
